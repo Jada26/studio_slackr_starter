@@ -19,7 +19,7 @@ export default class MessageInput extends React.Component {
     });
   }
   sendMessage(event) {
-    // var self = this; // This will be needed later.
+    var self = this; // This will be needed later.
     event.preventDefault();
     if(!this.state.message) {
       return;
@@ -27,19 +27,21 @@ export default class MessageInput extends React.Component {
     base.push('channels/' + this.props.channelId + '/messages', {
       data: {
         author: this.user.displayName,
-        contents: 'TODO replace this string with the message input text',
+        contents:this.state.message,
         timestamp: Date.now(),
       },
       then: function(err) {
         if(err) {
           console.error('Error saving message', err);
         } else {
+          self.setState({message:''});
           // TODO reset the message input to empty.
         }
       }
     });
   }
   handleChange(event) {
+    this.setState({message:event.target.value});
     // TODO set the state message property to event.target.value
   }
   render() {
